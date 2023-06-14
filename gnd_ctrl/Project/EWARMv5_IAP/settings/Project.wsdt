@@ -12,65 +12,37 @@
           
           
           
-        <Column0>205</Column0><Column1>27</Column1><Column2>27</Column2><Column3>27</Column3></ColumnWidths>
+        <Column0>107</Column0><Column1>27</Column1><Column2>27</Column2><Column3>27</Column3></ColumnWidths>
       </Workspace>
-      <Build>
-        
-        
-        
-        
-      <ColumnWidth0>20</ColumnWidth0><ColumnWidth1>765</ColumnWidth1><ColumnWidth2>204</ColumnWidth2><ColumnWidth3>51</ColumnWidth3></Build>
-      <Debug-Log>
-        
-        
-      <ColumnWidth0>20</ColumnWidth0><ColumnWidth1>1021</ColumnWidth1></Debug-Log>
-      <TerminalIO/>
-    <Find-in-Files><ColumnWidth0>370</ColumnWidth0><ColumnWidth1>52</ColumnWidth1><ColumnWidth2>634</ColumnWidth2></Find-in-Files></Static>
+    <Build><ColumnWidth0>20</ColumnWidth0><ColumnWidth1>972</ColumnWidth1><ColumnWidth2>259</ColumnWidth2><ColumnWidth3>64</ColumnWidth3></Build></Static>
     <Windows>
       
-      
-    <Wnd0>
+    <Wnd1>
         <Tabs>
           <Tab>
-            <Identity>TabID-20961-1255</Identity>
+            <Identity>TabID-28939-29765</Identity>
             <TabName>Workspace</TabName>
             <Factory>Workspace</Factory>
             <Session>
               
-            <NodeDict><ExpandedNode>Project</ExpandedNode><ExpandedNode>Project/User</ExpandedNode><ExpandedNode>Project/User/main.c</ExpandedNode></NodeDict></Session>
+            <NodeDict><ExpandedNode>Project</ExpandedNode><ExpandedNode>Project/User</ExpandedNode></NodeDict></Session>
           </Tab>
         </Tabs>
         
-      <SelectedTab>0</SelectedTab></Wnd0><Wnd1>
-        <Tabs>
-          <Tab>
-            <Identity>TabID-30100-2721</Identity>
-            <TabName>Build</TabName>
-            <Factory>Build</Factory>
-            <Session/>
-          </Tab>
-          <Tab>
-            <Identity>TabID-761-2862</Identity>
-            <TabName>Debug Log</TabName>
-            <Factory>Debug-Log</Factory>
-            <Session/>
-          </Tab>
-        <Tab><Identity>TabID-21791-18367</Identity><TabName>Find in Files</TabName><Factory>Find-in-Files</Factory><Session/></Tab><Tab><Identity>TabID-11414-13897</Identity><TabName>Breakpoints</TabName><Factory>Breakpoints</Factory></Tab></Tabs>
-        
-      <SelectedTab>0</SelectedTab></Wnd1></Windows>
+      <SelectedTab>0</SelectedTab></Wnd1><Wnd0><Tabs><Tab><Identity>TabID-13548-30258</Identity><TabName>Build</TabName><Factory>Build</Factory><Session/></Tab></Tabs><SelectedTab>0</SelectedTab></Wnd0></Windows>
     <Editor>
       
       
       
       
-    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\src\main.c</Filename><XPos>0</XPos><YPos>54</YPos><SelStart>2156</SelStart><SelEnd>2156</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\inc\main.h</Filename><XPos>0</XPos><YPos>62</YPos><SelStart>5418</SelStart><SelEnd>5418</SelEnd></Tab><ActiveTab>1</ActiveTab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\src\speed_ctrl.c</Filename><XPos>0</XPos><YPos>5</YPos><SelStart>304</SelStart><SelEnd>304</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\src\fun.c</Filename><XPos>0</XPos><YPos>352</YPos><SelStart>7611</SelStart><SelEnd>7611</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\src\netconf.c</Filename><XPos>0</XPos><YPos>127</YPos><SelStart>4618</SelStart><SelEnd>4618</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\inc\fun.h</Filename><XPos>0</XPos><YPos>130</YPos><SelStart>1938</SelStart><SelEnd>2387</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\..\Utilities\lwip-1.3.1\port\ethernetif.c</Filename><XPos>0</XPos><YPos>56</YPos><SelStart>2505</SelStart><SelEnd>2505</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\src\stm32f10x_it.c</Filename><XPos>0</XPos><YPos>198</YPos><SelStart>6033</SelStart><SelEnd>6033</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\src\TCPclient.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\src\stm32f107.c</Filename><XPos>0</XPos><YPos>160</YPos><SelStart>7597</SelStart><SelEnd>7597</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\src\timExti.c</Filename><XPos>0</XPos><YPos>227</YPos><SelStart>3447</SelStart><SelEnd>3447</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\src\usart.c</Filename><XPos>0</XPos><YPos>150</YPos><SelStart>1504</SelStart><SelEnd>1504</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\..\Utilities\lwip-1.3.1\src\core\mem.c</Filename><XPos>0</XPos><YPos>172</YPos><SelStart>6532</SelStart><SelEnd>6532</SelEnd></Tab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
+    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\src\main.c</Filename><XPos>0</XPos><YPos>36</YPos><SelStart>1797</SelStart><SelEnd>1797</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\src\fun.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\src\carfun.c</Filename><XPos>0</XPos><YPos>127</YPos><SelStart>2644</SelStart><SelEnd>2644</SelEnd></Tab><ActiveTab>2</ActiveTab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
     <Positions>
       
       
       
       
       
-    <Top><Row0><Sizes><Toolbar-016a24c8><key>iaridepm.enu1</key></Toolbar-016a24c8></Sizes></Row0></Top><Left><Row0><Sizes><Wnd0><Rect><Top>-2</Top><Left>-2</Left><Bottom>408</Bottom><Right>296</Right><x>-2</x><y>-2</y><xscreen>1074</xscreen><yscreen>924</yscreen><sizeHorzCX>792035</sizeHorzCX><sizeHorzCY>1370920</sizeHorzCY><sizeVertCX>219764</sizeVertCX><sizeVertCY>608309</sizeVertCY></Rect></Wnd0></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd1><Rect><Top>-2</Top><Left>-2</Left><Bottom>221</Bottom><Right>1358</Right><x>-2</x><y>-2</y><xscreen>1360</xscreen><yscreen>223</yscreen><sizeHorzCX>1002950</sizeHorzCX><sizeHorzCY>330861</sizeHorzCY><sizeVertCX>792035</sizeVertCX><sizeVertCY>1370920</sizeVertCY></Rect></Wnd1></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
+    <Top><Row0><Sizes><Toolbar-054b2500><key>iaridepm.enu1</key></Toolbar-054b2500></Sizes></Row0></Top><Left><Row0><Sizes><Wnd1><Rect><Top>-2</Top><Left>-2</Left><Bottom>335</Bottom><Right>198</Right><x>-2</x><y>-2</y><xscreen>200</xscreen><yscreen>200</yscreen><sizeHorzCX>147493</sizeHorzCX><sizeHorzCY>296736</sizeHorzCY><sizeVertCX>147493</sizeVertCX><sizeVertCY>500000</sizeVertCY></Rect></Wnd1></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd0><Rect><Top>-2</Top><Left>-2</Left><Bottom>294</Bottom><Right>1358</Right><x>-2</x><y>-2</y><xscreen>1360</xscreen><yscreen>296</yscreen><sizeHorzCX>1002950</sizeHorzCX><sizeHorzCY>439169</sizeHorzCY><sizeVertCX>147493</sizeVertCX><sizeVertCY>296736</sizeVertCY></Rect></Wnd0></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
   </Desktop>
 </Workspace>
 

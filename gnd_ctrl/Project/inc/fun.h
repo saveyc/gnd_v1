@@ -99,6 +99,7 @@ typedef struct {
 #define		REPLY_RECV_MSG_WCS2GNDCTRL_PARA_TYPE  0x9220
 #define         REPLY_RECV_MSG_REPAIR_CAR_CMD_TYPE    0x9221
 #define         RECV_MSG_BOOT_CMD_TYPE                0x1F01
+#define     REPLY_SEND_MSG_GNDCTRL2WCS_CMD_TYPE   0x9201
 
 #pragma pack (1) 
 typedef struct {
@@ -115,6 +116,14 @@ typedef struct {
         u16 front, rear, len; /* 队首指针（下标），队尾指针（下标），队列长度变量 */
         u16 maxSize; /* queue数组长度 */
 }MSG_SEND_QUEUE;
+
+
+extern u16  recv_gndpos_cnt;
+extern sGnd2Wcs_state_node  pregndposnod;
+
+extern u16 usart2_sentcount;
+extern u16 usart4_sentcount;
+extern u16 positionreset;
 
 void InitSendMsgQueue(void);
 void AddSendMsgToQueue(u16 msg);
@@ -134,6 +143,8 @@ void AddToGnd2WcsStateQueue(sGnd2Wcs_state_node x);
 extern sGndCtrl2WCS_CMD_Data  gnd2WcsCmdData;
 extern sWCS2GndCtrl_Para_Data wcs2GndParaData;
 extern sRepairCar_CMD_Data    repairCarCmdData;
+
+extern sGndCtrl2WCS_Interval_Data  carfunint;
 
 extern sGndCtrl2WCS_Interval_Queue  gnd2WcsIntervalQueue;
 

@@ -79,7 +79,7 @@ void scan_dip_state(void)
         }
     }
     inverter_type = (~dip_value)&0x7;
-    version[0] = 11;
+    version[0] = 12;
     version[1] = 0;
     version[2] = 0;
     version[3] = 2;
@@ -137,6 +137,7 @@ int main(void)
     scan_dip_state();
     InitGnd2WcsStateQueue();
     gnd2WcsCmdData.speed = 0;
+    carInitSendMsgQueue();
     /* Infinite loop */
     while (1)
     {
@@ -158,6 +159,7 @@ int main(void)
             udp_client_process();
             send_message_to_sever();
             fun_gnd2wcs_state_msg();
+            carsend_message_to_sever();
         }
         sec_process();
     }
@@ -193,8 +195,26 @@ void Time_Update(void)
         sec_reg--;
         if( sec_reg == 0 )
         {
-            sec_reg = 100;
+            sec_reg = 1000;
             sec_flag = 1;
+        }
+    }
+    if (recv_gndpos_cnt != 0) {
+        recv_gndpos_cnt--;
+        if (recv_gndpos_cnt == 0) {
+//            AddToGnd2WcsStateQueue(pregndposnod);
+        }
+    }
+    if(usart4_sentcount !=0){
+      usart4_sentcount--;
+    }
+    if(usart2_sentcount !=0){
+      usart2_sentcount--;
+    }
+    if (positionreset != 0) {
+        positionreset--;
+        if (positionreset == 0) {
+            carAddSendMsgToQueue(CAR_MSG_GNDCTRL2WCS_CMD_INTERVAL_TYPE);
         }
     }
 //    if((stop_time_delay != 0) && (servo_start == 1))

@@ -343,7 +343,7 @@ void System_Setup(void)
 
     /* SystTick configuration: an interrupt every 10ms */
     RCC_GetClocksFreq(&RCC_Clocks);
-    SysTick_Config(RCC_Clocks.SYSCLK_Frequency / 100);
+    SysTick_Config(RCC_Clocks.SYSCLK_Frequency / 1000);
 
     /* Update the SysTick IRQ priority should be higher than the Ethernet IRQ */
     /* The Localtime should be updated during the Ethernet packets processing */

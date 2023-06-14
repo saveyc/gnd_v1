@@ -214,6 +214,7 @@ void EXTI4_IRQHandler(void)
             statenode.servo = servo_hz;
 
             AddToGnd2WcsStateQueue(statenode);
+            recv_gndpos_cnt = 50;
             
             AddToGnd2WcsIntervalQueue(interval_Data);
      

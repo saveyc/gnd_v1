@@ -17,6 +17,17 @@ sGndCtrl2WCS_state_Queue    gndstatequeue;
 u16 msgQueueBuff[msgSendQueueSize];
 MSG_SEND_QUEUE msgSendQueue;
 
+u16  recv_gndpos_cnt = 0;
+
+sGnd2Wcs_state_node  pregndposnod;
+
+sGndCtrl2WCS_Interval_Data  carfunint;
+
+u16 usart2_sentcount = 0;
+u16 usart4_sentcount = 0;
+
+u16 positionreset = 0;
+
 void initQueue(MSG_SEND_QUEUE *q, u16 ms)
 {
     q->maxSize = ms;
@@ -196,6 +207,9 @@ void recv_msg_process(u8 *point)
         repair_car_para_init();
         AddSendMsgToQueue(REPLY_RECV_MSG_REPAIR_CAR_CMD_TYPE);
         break;
+    case REPLY_SEND_MSG_GNDCTRL2WCS_CMD_TYPE:
+        recv_gndpos_cnt = 0;
+        break;
     default:
         break;
     }
@@ -237,6 +251,7 @@ void send_msg_gndctrl2wcs_cmd(u8 *buf, u16 *len, u16 type)
     u16 i = 0;
 
     node = pxGetMsgFromStateQueue(&gndstatequeue);
+    pregndposnod = *node;
     //UartSendCarNo(usrCarNo);//debug
     sendlen = sizeof(sGndCtrl2WCS_CMD_Data);
     buf[9] = type & 0xFF;
@@ -282,6 +297,8 @@ void send_msg_gndctrl2wcs_cmd_interval_data(u8 *buf, u16 *len, u16 type)
     intervalData = pxGetMsgFromIntervalQueue(&gnd2WcsIntervalQueue);
     
     if(intervalData == 0)return;
+
+    carfunint = *intervalData;
     
     buf[9] = type & 0xFF;
     buf[10] = (type >> 8) & 0xFF;
@@ -308,6 +325,9 @@ void send_msg_gndctrl2wcs_cmd_interval_data(u8 *buf, u16 *len, u16 type)
     buf[8] = sum;
 
     *len = sendlen;
+
+    carAddSendMsgToQueue(CAR_MSG_GNDCTRL2WCS_CMD_INTERVAL_TYPE);
+    positionreset = 30;
 }
 
 
@@ -318,7 +338,12 @@ void send_msg_uart_two_data(u8* buf, u16* len, u16 type)
     u16 i;
 
     if (record_uart2_len == 0) {
+      *len = 0;
         return;
+    }
+    if(usart2_sentcount !=0){
+      *len = 0;
+       return;
     }
 
     sendlen = 11 + record_uart2_len;
@@ -350,6 +375,7 @@ void send_msg_uart_two_data(u8* buf, u16* len, u16 type)
     *len = sendlen;
 
     record_uart2_len = 0;
+    usart2_sentcount = 20;
 }
 
 
@@ -360,7 +386,13 @@ void send_msg_uart_four_data(u8* buf, u16* len, u16 type)
     u16 i;
 
     if (record_uart4_len == 0) {
+      *len = 0;
         return;
+    }
+    
+    if(usart4_sentcount !=0){
+      *len = 0;
+       return;
     }
 
     sendlen = 11 + record_uart4_len;
@@ -392,6 +424,7 @@ void send_msg_uart_four_data(u8* buf, u16* len, u16 type)
     *len = sendlen;
 
     record_uart4_len = 0;
+    usart4_sentcount = 20;
 }
 
 void send_msg_gnd_version_type(u8* buf, u16* len, u16 type)

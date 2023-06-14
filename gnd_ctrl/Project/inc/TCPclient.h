@@ -1,7 +1,7 @@
 #ifndef __TCPCLIENT_H__
 #define __TCPCLIENT_H__
 
-#define	TCP_CLIENT_MAX_NUM	1
+#define	TCP_CLIENT_MAX_NUM	2
 
 struct tcp_client_table
 {

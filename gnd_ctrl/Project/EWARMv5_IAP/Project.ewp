@@ -562,7 +562,7 @@
         </option>
         <option>
           <name>OOCOutputFile</name>
-          <state>gnd_ctrl_v2.0.11_20230511.bin</state>
+          <state>gnd_ctrl_v2.0.12_20230611.bin</state>
         </option>
         <option>
           <name>OOCCommandLineProducer</name>
@@ -1035,6 +1035,9 @@
   </group>
   <group>
     <name>User</name>
+    <file>
+      <name>$PROJ_DIR$\..\src\carfun.c</name>
+    </file>
     <file>
       <name>$PROJ_DIR$\..\src\delay.c</name>
     </file>
