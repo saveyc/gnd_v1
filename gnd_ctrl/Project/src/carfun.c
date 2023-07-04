@@ -12,6 +12,7 @@ void carinitQueue(MSG_SEND_QUEUE* q, u16 ms)
     q->queue = carQueueBuff;
     q->front = q->rear = 0;
 }
+
 void carenQueue(MSG_SEND_QUEUE* q, u16 x)
 {
     //队列满
@@ -22,6 +23,7 @@ void carenQueue(MSG_SEND_QUEUE* q, u16 x)
     q->rear = (q->rear + 1) % q->maxSize; // 求出队尾的下一个位置
     q->queue[q->rear] = x; // 把x的值赋给新的队尾
 }
+
 u16 caroutQueue(MSG_SEND_QUEUE* q)
 {
     //队列空
@@ -32,6 +34,7 @@ u16 caroutQueue(MSG_SEND_QUEUE* q)
     q->front = (q->front + 1) % q->maxSize; // 使队首指针指向下一个位置
     return q->queue[q->front]; // 返回队首元素
 }
+
 void carInitSendMsgQueue(void)
 {
     carinitQueue(&carSendQueue, carSendQueueSize);
