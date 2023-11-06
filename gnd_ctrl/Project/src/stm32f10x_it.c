@@ -189,83 +189,85 @@ void TIM3_IRQHandler(void)
 
 void EXTI4_IRQHandler(void)
 {
-    u16 i;
-    sGndCtrl2WCS_Interval_Data  interval_Data ;
-    sGnd2Wcs_state_node statenode;
-    //IN6
-    if(EXTI_GetITStatus(EXTI_Line4) != RESET)
-    {
-        EXTI_ClearITPendingBit(EXTI_Line4);
-        for(i = 0 ; i < EXT_DELAY ; i++)
-        {
-            if(EXT6_STATE == 0)
-                break;
-        }
-        if(i == EXT_DELAY)
-        {
-            interval_Data.PreCarNum = gnd2WcsCmdData.carNo;
-            gnd2WcsCmdData.carNo++;
-            interval_Data.CurCarNum = gnd2WcsCmdData.carNo;
-            interval_Data.interval = interval_ms_flag;//发送光电时间间隔
-            statenode.speed = gnd2WcsCmdData.speed;
-            if (gnd2WcsCmdData.carNo > 0) {
-                statenode.carnum = gnd2WcsCmdData.carNo - 1;
-            }
-            statenode.servo = servo_hz;
+    //u16 i;
+    //sGndCtrl2WCS_Interval_Data  interval_Data ;
+    //sGnd2Wcs_state_node statenode;
+    ////IN6
+    //if(EXTI_GetITStatus(EXTI_Line4) != RESET)
+    //{
+    //    EXTI_ClearITPendingBit(EXTI_Line4);
+    //    for(i = 0 ; i < EXT_DELAY ; i++)
+    //    {
+    //        if(EXT6_STATE == 0)
+    //            break;
+    //    }
+    //    if(i == EXT_DELAY)
+    //    {
+    //        interval_Data.PreCarNum = gnd2WcsCmdData.carNo;
+    //        gnd2WcsCmdData.carNo++;
+    //        interval_Data.CurCarNum = gnd2WcsCmdData.carNo;
+    //        interval_Data.interval = interval_ms_flag;//发送光电时间间隔
+    //        statenode.speed = gnd2WcsCmdData.speed;
+    //        if (gnd2WcsCmdData.carNo > 0) {
+    //            statenode.carnum = gnd2WcsCmdData.carNo - 1;
+    //        }
+    //        statenode.servo = servo_hz;
 
-            AddToGnd2WcsStateQueue(statenode);
-            recv_gndpos_cnt = 50;
-            
-            AddToGnd2WcsIntervalQueue(interval_Data);
-     
-            AddSendMsgToQueue(SEND_MSG_GNDCTRL2WCS_CMD_INTERVAL_TYPE);
-            
-            AddSendMsgToQueue(SEND_MSG_GNDCTRL2WCS_CMD_TYPE);
-            
-            interval_ms_flag = 0;
-             
-            //TIM_EXTI_Process(6);
-            TIM_EXTI_Process(1);
-            repairLocationCtrl();
-            msg_send_delay = 10;
-        }
-    }
+    //        AddToGnd2WcsStateQueue(statenode);
+    //        recv_gndpos_cnt = 50;
+    //        
+    //        AddToGnd2WcsIntervalQueue(interval_Data);
+    // 
+    //        AddSendMsgToQueue(SEND_MSG_GNDCTRL2WCS_CMD_INTERVAL_TYPE);
+    //        
+    //        AddSendMsgToQueue(SEND_MSG_GNDCTRL2WCS_CMD_TYPE);
+    //        
+    //        interval_ms_flag = 0;
+    //         
+    //        //TIM_EXTI_Process(6);
+    //        TIM_EXTI_Process(1);
+    //        repairLocationCtrl();
+    //        msg_send_delay = 10;
+    //    }
+    //}
 }
 void EXTI9_5_IRQHandler(void)
 {
-    u16 i;
-    //IN7
-    if(EXTI_GetITStatus(EXTI_Line5) != RESET)
-    {
-        EXTI_ClearITPendingBit(EXTI_Line5);
-        for(i = 0 ; i < EXT_DELAY ; i++)
-        {
-            if(EXT7_STATE == 0)
-                break;
-        }
-        if(i == EXT_DELAY)
-        {
-            //TIM_EXTI_Process(7);
-            TIM_EXTI_Process(2);
-        }
-    }
-    //IN10
-    //接近开关车号复位
-    if(EXTI_GetITStatus(EXTI_Line7) != RESET)
-    {
-        EXTI_ClearITPendingBit(EXTI_Line7);
-        for(i = 0 ; i < EXT_DELAY ; i++)
-        {
-            if(EXT10_STATE == 0)
-                break;
-        }
-        if(i == EXT_DELAY)
-        {
-            gnd2WcsCmdData.carNo = 0;
-            reset_flag = 1;
-        }
-    }
+    //u16 i;
+    ////IN7
+    //if(EXTI_GetITStatus(EXTI_Line5) != RESET)
+    //{
+    //    EXTI_ClearITPendingBit(EXTI_Line5);
+    //    for(i = 0 ; i < EXT_DELAY ; i++)
+    //    {
+    //        if(EXT7_STATE == 0)
+    //            break;
+    //    }
+    //    if(i == EXT_DELAY)
+    //    {
+    //        //TIM_EXTI_Process(7);
+    //        TIM_EXTI_Process(2);
+    //    }
+    //}
+    ////IN10
+    ////接近开关车号复位
+    //if(EXTI_GetITStatus(EXTI_Line7) != RESET)
+    //{
+    //    EXTI_ClearITPendingBit(EXTI_Line7);
+    //    for(i = 0 ; i < EXT_DELAY ; i++)
+    //    {
+    //        if(EXT10_STATE == 0)
+    //            break;
+    //    }
+    //    if(i == EXT_DELAY)
+    //    {
+    //        gnd2WcsCmdData.carNo = 0;
+    //        reset_flag = 1;
+    //    }
+    //}
 }
+
+
 
 
 /******************* (C) COPYRIGHT 2009 STMicroelectronics *****END OF FILE****/

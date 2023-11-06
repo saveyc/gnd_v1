@@ -185,6 +185,7 @@ u8 recv_msg_check(u8 *point, u16 len)
 }
 void recv_msg_process(u8 *point)
 {
+    u16 value = 0;
     MSG_HEAD_DATA *head = (MSG_HEAD_DATA *)point;
     
     if( head->MSG_TYPE == RECV_MSG_BOOT_CMD_TYPE )
@@ -199,8 +200,17 @@ void recv_msg_process(u8 *point)
         wcs2GndParaData = *((sWCS2GndCtrl_Para_Data *)point);
         AddSendMsgToQueue(REPLY_RECV_MSG_WCS2GNDCTRL_PARA_TYPE);
         AddSendMsgToQueue(REPLY_WCS_GND_VERSION_TYPE);
-        fwInitHz = fwInitServo();
-        servo_start = 0;
+        value = wcs2GndParaData.speed_target * 100;
+        position_servo = wcs2GndParaData.standard_hz;
+        ServoFreqSet(value, 0);
+        if (value == 0) {
+            OUTONE_OFF;
+        }
+        else {
+            OUTONE_ON;
+        }
+        //fwInitHz = fwInitServo();
+        //servo_start = 0;
         break;
     case RECV_MSG_REPAIR_CAR_CMD_TYPE:
         repairCarCmdData = *((sRepairCar_CMD_Data *)point);
@@ -249,7 +259,6 @@ void send_msg_gndctrl2wcs_cmd(u8 *buf, u16 *len, u16 type)
     u8  sum = 0;
     u16 sendlen = 0;
     u16 i = 0;
-    u16 j = 0;
 
     node = pxGetMsgFromStateQueue(&gndstatequeue);
     pregndposnod = *node;
@@ -283,11 +292,6 @@ void send_msg_gndctrl2wcs_cmd(u8 *buf, u16 *len, u16 type)
     buf[8] = sum;
 
     *len = sendlen;
-
-    for (j = 0; j < 10; j++) {
-        GndThreemsg[j] = buf[11 + j];
-    }
-    carthreeAddSendMsgToQueue(SEND_MSG_GNDCTRL2WCS_CMD_TYPE);
 }
 
 //主动发送小车发生位置变化的间隔
@@ -297,7 +301,6 @@ void send_msg_gndctrl2wcs_cmd_interval_data(u8 *buf, u16 *len, u16 type)
     u16 sendlen;
     u16 i;
     sGndCtrl2WCS_Interval_Data* intervalData = 0;
-    u16 j = 0;
     
     sendlen = 11 + 6;
    
@@ -335,11 +338,6 @@ void send_msg_gndctrl2wcs_cmd_interval_data(u8 *buf, u16 *len, u16 type)
 
     carAddSendMsgToQueue(CAR_MSG_GNDCTRL2WCS_CMD_INTERVAL_TYPE);
     positionreset = 30;
-
-    for (j = 0; j < 6; j++) {
-        GndThreeDebug[j] = buf[11 + j];
-    }
-    carthreeAddSendMsgToQueue(SEND_MSG_GNDCTRL2WCS_CMD_INTERVAL_TYPE);
 }
 
 
@@ -537,14 +535,14 @@ void send_message_to_sever(void)
         send_msg_gnd_version_type(&(tcp_client_list[0].tcp_send_buf[0]), &(tcp_client_list[0].tcp_send_len), msg_type);
         tcp_client_list[0].tcp_send_en = 1;
         break;
-    case SEND_UART2_MSG:
-        send_msg_uart_two_data(&(tcp_client_list[0].tcp_send_buf[0]), &(tcp_client_list[0].tcp_send_len), msg_type);
-        tcp_client_list[0].tcp_send_en = 1;
-        break;
-    case SEND_UART4_MSG:
-        send_msg_uart_four_data(&(tcp_client_list[0].tcp_send_buf[0]), &(tcp_client_list[0].tcp_send_len), msg_type);
-        tcp_client_list[0].tcp_send_en = 1;
-        break;
+//    case SEND_UART2_MSG:
+//        send_msg_uart_two_data(&(tcp_client_list[0].tcp_send_buf[0]), &(tcp_client_list[0].tcp_send_len), msg_type);
+//        tcp_client_list[0].tcp_send_en = 1;
+//        break;
+//    case SEND_UART4_MSG:
+//        send_msg_uart_four_data(&(tcp_client_list[0].tcp_send_buf[0]), &(tcp_client_list[0].tcp_send_len), msg_type);
+//        tcp_client_list[0].tcp_send_en = 1;
+//        break;
     default:
         if( tcp_client_list[0].tcp_client_statue == CLIENT_CONNECT_OK)
         {

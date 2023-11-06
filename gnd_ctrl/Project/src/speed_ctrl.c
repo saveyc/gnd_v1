@@ -49,7 +49,7 @@ int RS485_OUT(int val)
     //Í¨¹ýRS485Êä³öval
     servo_hz = val;
     
-    ServoFreqSet(val);
+//    ServoFreqSet(val);
 
     return 0;
 }

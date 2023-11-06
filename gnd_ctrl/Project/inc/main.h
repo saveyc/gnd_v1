@@ -37,6 +37,7 @@
 #include "carfun.h"
 #include "carfuntwo.h"
 #include "carfunthree.h"
+#include "gpio.h"
 //#include "delay.h"
    
 #define  USE_UDP
@@ -78,8 +79,8 @@ void Delay(uint32_t nCount);
 #define DEST_IPFOUR_ADDR0   192
 #define DEST_IPFOUR_ADDR1   168
 #define DEST_IPFOUR_ADDR2   10
-#define DEST_IPFOUR_ADDR3   13
-#define DEST_PORT_FOUR      9912
+#define DEST_IPFOUR_ADDR3   112
+#define DEST_PORT_FOUR      9000
 
 #define LOCAL_UDP_PORT  DEST_PORT
 /* MAC ADDRESS: MAC_ADDR0:MAC_ADDR1:MAC_ADDR2:MAC_ADDR3:MAC_ADDR4:MAC_ADDR5 */
@@ -116,9 +117,15 @@ void Delay(uint32_t nCount);
 #define  EXT9_STATE             GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_13)
 #define  EXT10_STATE            GPIO_ReadInputDataBit(GPIOE,GPIO_Pin_7)
 
-#define	 LED_STATE		GPIO_ReadOutputDataBit(GPIOC, GPIO_Pin_8)
-#define	 LED_ON			GPIO_ResetBits(GPIOC,GPIO_Pin_8)
-#define	 LED_OFF		GPIO_SetBits(GPIOC,GPIO_Pin_8)
+#define	 LED_STATE		        GPIO_ReadOutputDataBit(GPIOC, GPIO_Pin_8)
+#define	 LED_ON			        GPIO_ResetBits(GPIOC,GPIO_Pin_8)
+#define	 LED_OFF		        GPIO_SetBits(GPIOC,GPIO_Pin_8)
+
+#define	 OUTONE_ON			GPIO_SetBits(GPIOC,GPIO_Pin_0)
+#define	 OUTONE_OFF		        GPIO_ResetBits(GPIOC,GPIO_Pin_0)
+
+#define	 OUTTWO_ON		     	GPIO_SetBits(GPIOB,GPIO_Pin_14)
+#define	 OUTTWO_OFF		        GPIO_ResetBits(GPIOB,GPIO_Pin_14)
 
 #define  DIP1_STATE             GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_4)
 #define  DIP2_STATE             GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_5)
@@ -179,7 +186,7 @@ void uart4_send(void);
 void uart5_send(void);
 void uart2_send(void);
 void uart1_send(void);
-void ServoFreqSet(u16 hz);
+void ServoFreqSet(u16 hz, u8 type);
 void scan_dip_state(void);
 
 #define HEART_DELAY   5
@@ -202,6 +209,8 @@ extern u8  record_uart2_len;
 
 extern u8  record_uart4_buff[];
 extern u8  record_uart4_len;
+
+void usart2_recv_process(void);
 
 #ifdef __cplusplus
 }

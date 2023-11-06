@@ -562,7 +562,7 @@
         </option>
         <option>
           <name>OOCOutputFile</name>
-          <state>gnd_ctrl_v2.0.13_s230926.bin</state>
+          <state>gnd_ctrl_v2.0.12_20230807_4s.bin</state>
         </option>
         <option>
           <name>OOCCommandLineProducer</name>
@@ -1049,6 +1049,9 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\src\fun.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\src\gpio.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\src\main.c</name>

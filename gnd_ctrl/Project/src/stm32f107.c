@@ -127,21 +127,21 @@ void EXTI_Configuration(void)
 //    EXTI_InitStructure.EXTI_LineCmd = ENABLE;
 //    EXTI_Init(&EXTI_InitStructure);
     //IN6
-    GPIO_EXTILineConfig(GPIO_PortSourceGPIOE, GPIO_PinSource4);
-    EXTI_ClearITPendingBit(EXTI_Line4);
-    EXTI_InitStructure.EXTI_Line = EXTI_Line4;
-    EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
-    EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising;
-    EXTI_InitStructure.EXTI_LineCmd = ENABLE;
-    EXTI_Init(&EXTI_InitStructure);
-    //IN7
-    GPIO_EXTILineConfig(GPIO_PortSourceGPIOE, GPIO_PinSource5);
-    EXTI_ClearITPendingBit(EXTI_Line5);
-    EXTI_InitStructure.EXTI_Line = EXTI_Line5;
-    EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
-    EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising;
-    EXTI_InitStructure.EXTI_LineCmd = ENABLE;
-    EXTI_Init(&EXTI_InitStructure);
+    //GPIO_EXTILineConfig(GPIO_PortSourceGPIOE, GPIO_PinSource4);
+    //EXTI_ClearITPendingBit(EXTI_Line4);
+    //EXTI_InitStructure.EXTI_Line = EXTI_Line4;
+    //EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
+    //EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising;
+    //EXTI_InitStructure.EXTI_LineCmd = ENABLE;
+    //EXTI_Init(&EXTI_InitStructure);
+    ////IN7
+    //GPIO_EXTILineConfig(GPIO_PortSourceGPIOE, GPIO_PinSource5);
+    //EXTI_ClearITPendingBit(EXTI_Line5);
+    //EXTI_InitStructure.EXTI_Line = EXTI_Line5;
+    //EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
+    //EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising;
+    //EXTI_InitStructure.EXTI_LineCmd = ENABLE;
+    //EXTI_Init(&EXTI_InitStructure);
 //    //IN8
 //    GPIO_EXTILineConfig(GPIO_PortSourceGPIOE, GPIO_PinSource6);
 //    EXTI_ClearITPendingBit(EXTI_Line6);
@@ -159,13 +159,13 @@ void EXTI_Configuration(void)
 //    EXTI_InitStructure.EXTI_LineCmd = ENABLE;
 //    EXTI_Init(&EXTI_InitStructure);
     //IN10
-    GPIO_EXTILineConfig(GPIO_PortSourceGPIOE, GPIO_PinSource7);
-    EXTI_ClearITPendingBit(EXTI_Line7);
-    EXTI_InitStructure.EXTI_Line = EXTI_Line7;
-    EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
-    EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising;
-    EXTI_InitStructure.EXTI_LineCmd = ENABLE;
-    EXTI_Init(&EXTI_InitStructure);
+    //GPIO_EXTILineConfig(GPIO_PortSourceGPIOE, GPIO_PinSource7);
+    //EXTI_ClearITPendingBit(EXTI_Line7);
+    //EXTI_InitStructure.EXTI_Line = EXTI_Line7;
+    //EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
+    //EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising;
+    //EXTI_InitStructure.EXTI_LineCmd = ENABLE;
+    //EXTI_Init(&EXTI_InitStructure);
 }
 /*****************************************************************************8
 
@@ -175,22 +175,12 @@ void USART_Configuration(void)
     USART_InitTypeDef USART_InitStructure;
 
     USART_InitStructure.USART_BaudRate = UART_BANDRATE;
-    if (inverter_type == 2)
-    {
-        USART_InitStructure.USART_WordLength = USART_WordLength_9b;
-        USART_InitStructure.USART_Parity = USART_Parity_Even;
-    }
-    else if ((inverter_type == 3) || (inverter_type == 4))
-    {
-        USART_InitStructure.USART_BaudRate = 9600;
-        USART_InitStructure.USART_WordLength = USART_WordLength_8b;
-        USART_InitStructure.USART_Parity = USART_Parity_No;
-    }
-    else
-    {
-        USART_InitStructure.USART_WordLength = USART_WordLength_8b;
-        USART_InitStructure.USART_Parity = USART_Parity_No;
-    }
+
+
+    USART_InitStructure.USART_BaudRate = 9600;
+    USART_InitStructure.USART_WordLength = USART_WordLength_9b;
+    USART_InitStructure.USART_Parity = USART_Parity_Odd;
+
     USART_InitStructure.USART_StopBits = USART_StopBits_1;
     USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
     USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
@@ -201,9 +191,9 @@ void USART_Configuration(void)
     USART_Cmd(UART4, ENABLE);
 
     USART_InitStructure.USART_BaudRate = 38400;
-    USART_InitStructure.USART_WordLength = USART_WordLength_8b;
+    USART_InitStructure.USART_WordLength = USART_WordLength_9b;
     USART_InitStructure.USART_StopBits = USART_StopBits_1;
-    USART_InitStructure.USART_Parity = USART_Parity_No;
+    USART_InitStructure.USART_Parity = USART_Parity_Odd;
     USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
     USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
 
@@ -211,23 +201,11 @@ void USART_Configuration(void)
     //USART_ITConfig(UART5, USART_IT_RXNE,ENABLE);
     USART_Cmd(UART5, ENABLE);
 
-    USART_InitStructure.USART_BaudRate = UART_BANDRATE;
-    if (inverter_type == 2)
-    {
-        USART_InitStructure.USART_WordLength = USART_WordLength_9b;
-        USART_InitStructure.USART_Parity = USART_Parity_Even;
-    } 
-    else if ((inverter_type == 3) || (inverter_type == 4))
-    {
-        USART_InitStructure.USART_BaudRate = 9600;
-        USART_InitStructure.USART_WordLength = USART_WordLength_8b;
-        USART_InitStructure.USART_Parity = USART_Parity_No;
-    }
-    else
-    {
-        USART_InitStructure.USART_WordLength = USART_WordLength_8b;
-        USART_InitStructure.USART_Parity = USART_Parity_No;
-    }
+    USART_InitStructure.USART_BaudRate = 9600;
+    USART_InitStructure.USART_WordLength = USART_WordLength_9b;
+    USART_InitStructure.USART_Parity = USART_Parity_Odd;
+
+
     USART_InitStructure.USART_StopBits = USART_StopBits_1;
     USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
     USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
@@ -237,23 +215,11 @@ void USART_Configuration(void)
     USART_DMACmd(USART2, USART_DMAReq_Tx, DISABLE);
     USART_Cmd(USART2, ENABLE);
 
-    USART_InitStructure.USART_BaudRate = UART_BANDRATE;
-    if (inverter_type == 2)
-    {
-        USART_InitStructure.USART_WordLength = USART_WordLength_9b;
-        USART_InitStructure.USART_Parity = USART_Parity_Even;
-    }   
-    else if ((inverter_type == 3) || (inverter_type == 4))
-    {
-        USART_InitStructure.USART_BaudRate = 9600;
-        USART_InitStructure.USART_WordLength = USART_WordLength_8b;
-        USART_InitStructure.USART_Parity = USART_Parity_No;
-    }
-    else
-    {
-        USART_InitStructure.USART_WordLength = USART_WordLength_8b;
-        USART_InitStructure.USART_Parity = USART_Parity_No;
-    }
+
+   USART_InitStructure.USART_BaudRate = 9600;
+   USART_InitStructure.USART_WordLength = USART_WordLength_8b;
+   USART_InitStructure.USART_Parity = USART_Parity_Odd;
+
     USART_InitStructure.USART_StopBits = USART_StopBits_1;
     USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
     USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
@@ -613,6 +579,21 @@ void GPIO_Configuration(void)
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_Init(GPIOA, &GPIO_InitStructure);
+
+    //OUT1 OUT2 OUT3 
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(GPIOC, &GPIO_InitStructure);
+
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_14 | GPIO_Pin_15;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(GPIOB, &GPIO_InitStructure);
+
+    USART2_RX_485;
+    OUTONE_OFF;
+    OUTTWO_OFF;
     
 }
 
@@ -670,18 +651,18 @@ void NVIC_Configuration(void)
 //    NVIC_Init(&NVIC_InitStructure);
     
     //NVIC_PriorityGroupConfig(NVIC_PriorityGroup_0);
-    NVIC_InitStructure.NVIC_IRQChannel = EXTI4_IRQn;
-    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
-    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
-    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-    NVIC_Init(&NVIC_InitStructure);
+    //NVIC_InitStructure.NVIC_IRQChannel = EXTI4_IRQn;
+    //NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+    //NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+    //NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    //NVIC_Init(&NVIC_InitStructure);
 
-    //NVIC_PriorityGroupConfig(NVIC_PriorityGroup_0);
-    NVIC_InitStructure.NVIC_IRQChannel = EXTI9_5_IRQn;
-    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
-    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
-    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-    NVIC_Init(&NVIC_InitStructure);
+    ////NVIC_PriorityGroupConfig(NVIC_PriorityGroup_0);
+    //NVIC_InitStructure.NVIC_IRQChannel = EXTI9_5_IRQn;
+    //NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+    //NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+    //NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    //NVIC_Init(&NVIC_InitStructure);
 
     //NVIC_PriorityGroupConfig(NVIC_PriorityGroup_0);
 //    NVIC_InitStructure.NVIC_IRQChannel = EXTI15_10_IRQn;

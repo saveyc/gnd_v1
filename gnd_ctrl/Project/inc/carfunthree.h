@@ -4,9 +4,6 @@
 
 extern MSG_SEND_QUEUE carthreeSendQueue;
 
-extern u8  GndThreemsg[];
-extern u8  GndThreeDebug[];
-
 
 
 void carthreeInitSendMsgQueue(void);

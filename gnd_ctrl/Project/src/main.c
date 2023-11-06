@@ -79,7 +79,7 @@ void scan_dip_state(void)
         }
     }
     inverter_type = (~dip_value)&0x7;
-    version[0] = 13;
+    version[0] = 12;
     version[1] = 0;
     version[2] = 0;
     version[3] = 2;
@@ -110,6 +110,7 @@ void sec_process(void)
         {
             RS485_OUT(fwInitHz);
         }
+//        ServoFreqSet(350, 0);
 //        ServoFreqSet(4000);
 //        if(msg_send_delay != 0)
 //        {
@@ -164,6 +165,7 @@ int main(void)
             carsend_message_to_sever();
             carthreesend_message_to_sever();
             cartwosend_message_to_sever();
+            usart2_recv_process();
 
         }
         sec_process();
@@ -222,6 +224,8 @@ void Time_Update(void)
             carAddSendMsgToQueue(CAR_MSG_GNDCTRL2WCS_CMD_INTERVAL_TYPE);
         }
     }
+    InputScanProc();
+    position_ouput_out();
 //    if((stop_time_delay != 0) && (servo_start == 1))
 //    {
 //        stop_time_delay--;

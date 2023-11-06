@@ -6,10 +6,6 @@
 u16 carthreeQueueBuff[carthreeSendQueueSize];
 MSG_SEND_QUEUE carthreeSendQueue;
 
-
-u8  GndThreemsg[100];
-u8  GndThreeDebug[100];
-
 void carthreeinitQueue(MSG_SEND_QUEUE* q, u16 ms)
 {
     q->maxSize = ms;
@@ -137,83 +133,6 @@ void carthreesend_msg_interval_data(u8* buf, u16* len, u16 type)
     *len = sendlen;
 }
 
-void send_msg_gndthree2wcs_cmd(u8* buf, u16* len, u16 type)
-{
-    sGnd2Wcs_state_node* node = 0;
-    u8  sum = 0;
-    u16 sendlen = 0;
-    u16 i = 0;
-
-    sendlen = sizeof(sGndCtrl2WCS_CMD_Data);
-    buf[9] = type & 0xFF;
-    buf[10] = (type >> 8) & 0xFF;
-    buf[11] = GndThreemsg[0];
-    buf[12] = GndThreemsg[1];
-    buf[13] = GndThreemsg[2];
-    buf[14] = GndThreemsg[3];
-    buf[15] = GndThreemsg[4];
-    buf[16] = GndThreemsg[5];
-    buf[17] = GndThreemsg[6];
-    buf[18] = GndThreemsg[7];
-    buf[19] = GndThreemsg[8]; //170810
-    buf[20] = GndThreemsg[9];
-    sum = buf[9];
-    for (i = 1; i < sendlen - 9; i++)
-    {
-        sum ^= buf[9 + i];
-    }
-    buf[0] = 0xAA;
-    buf[1] = 0xAA;
-    buf[2] = 0x01;
-    buf[3] = 0x00;
-    buf[4] = 0x00;
-    buf[5] = 0x00;
-    buf[6] = sendlen & 0xFF;
-    buf[7] = (sendlen >> 8) & 0xFF;
-    buf[8] = sum;
-
-    *len = sendlen;
-}
-
-//主动发送小车发生位置变化的间隔
-void send_msg_gndthree2wcs_data(u8* buf, u16* len, u16 type)
-{
-    u8  sum;
-    u16 sendlen;
-    u16 i;
-
-    sendlen = 11 + 6;
-
-
-
-    buf[9] = type & 0xFF;
-    buf[10] = (type >> 8) & 0xFF;
-    buf[11] = GndThreeDebug[0];
-    buf[12] = GndThreeDebug[1];
-    buf[13] = GndThreeDebug[2];
-    buf[14] = GndThreeDebug[3];
-    buf[15] = GndThreeDebug[4];
-    buf[16] = GndThreeDebug[5];
-
-    sum = buf[9];
-    for (i = 1; i < sendlen - 9; i++)
-    {
-        sum ^= buf[9 + i];
-    }
-    buf[0] = 0xAA;
-    buf[1] = 0xAA;
-    buf[2] = 0x01;
-    buf[3] = 0x00;
-    buf[4] = 0x00;
-    buf[5] = 0x00;
-    buf[6] = sendlen & 0xFF;
-    buf[7] = (sendlen >> 8) & 0xFF;
-    buf[8] = sum;
-
-    *len = sendlen;
-
-}
-
 
 void carthreesend_message_to_sever(void)
 {
@@ -234,14 +153,6 @@ void carthreesend_message_to_sever(void)
 
     case CAR_MSG_GNDCTRL2WCS_CMD_INTERVAL_TYPE:
         carthreesend_msg_interval_data(&(tcp_client_list[3].tcp_send_buf[0]), &(tcp_client_list[3].tcp_send_len), msg_type);
-        tcp_client_list[3].tcp_send_en = 1;
-        break;
-    case SEND_MSG_GNDCTRL2WCS_CMD_TYPE:
-        send_msg_gndthree2wcs_cmd(&(tcp_client_list[3].tcp_send_buf[0]), &(tcp_client_list[3].tcp_send_len), msg_type);
-        tcp_client_list[3].tcp_send_en = 1;
-        break;
-    case SEND_MSG_GNDCTRL2WCS_CMD_INTERVAL_TYPE:
-        send_msg_gndthree2wcs_data(&(tcp_client_list[3].tcp_send_buf[0]), &(tcp_client_list[3].tcp_send_len), msg_type);
         tcp_client_list[3].tcp_send_en = 1;
         break;
     default:
