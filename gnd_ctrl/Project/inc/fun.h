@@ -1,9 +1,6 @@
 #ifndef _FUN_H
 #define _FUN_H
 
-#define INTERVAL_QUEUE_LEN  20
-#define GND_STATE_LEN       20
-
 #pragma pack (1)
 /* 地面系统发送线速给WCS,帧命令：0x1201*/
 typedef struct{
@@ -42,40 +39,10 @@ typedef struct{
     u16 car_no;
     u16 repair_locate;
     u16 car_tot_num;
-    u16 adjust_para;
     u16 standard_hz;
 }sRepairCar_CMD_Data;
 
-/* 地面控制系统发送小车发生位置变化的间隔，帧命令：0x1223 */
-typedef struct{
-    u8  cmd[11];
-    u16 PreCarNum;//上一次的位置
-    u16 CurCarNum;//当次的位置
-    u16 interval;//位置发生变化的间隔
-}sGndCtrl2WCS_Interval_Data;
-
-typedef struct {
-    u32  speed;
-    u16  carnum;
-    u16  servo;
-}sGnd2Wcs_state_node;
-
 #pragma pack ()
-
-
-typedef struct{
-    sGndCtrl2WCS_Interval_Data* queue;
-    u16 front, rear, len;
-    u16 maxsize;
-}sGndCtrl2WCS_Interval_Queue;
-
-typedef struct {
-    sGnd2Wcs_state_node* queue;
-    u16 front, rear, len;
-    u16 maxsize;
-}sGndCtrl2WCS_state_Queue;
-
-
 
 /********命令定义**********/
 #define		MSG_NULL_TYPE			      0x0000
@@ -84,22 +51,14 @@ typedef struct {
 /**********主动发送命令*********/
 #define		SEND_MSG_GNDCTRL2WCS_CMD_TYPE	      0x1201
 /**********主动发送回复命令*********/
-#define    REPLY_WCS_GND_VERSION_TYPE             0x1222
-/**********主动发送小车发生位置变化的间隔*********/
-#define		SEND_MSG_GNDCTRL2WCS_CMD_INTERVAL_TYPE  0x1223
-
-#define    SEND_UART2_MSG                    0xA2A2
-#define    SEND_UART4_MSG                    0xA4A4
 
 /**********接收命令*********/
 #define		RECV_MSG_WCS2GNDCTRL_PARA_TYPE	      0x1220
 #define         RECV_MSG_REPAIR_CAR_CMD_TYPE          0x1221
-
 /**********回复接收命令*********/
 #define		REPLY_RECV_MSG_WCS2GNDCTRL_PARA_TYPE  0x9220
-#define         REPLY_RECV_MSG_REPAIR_CAR_CMD_TYPE    0x9221
+#define     REPLY_RECV_MSG_REPAIR_CAR_CMD_TYPE    0x9221
 #define         RECV_MSG_BOOT_CMD_TYPE                0x1F01
-#define     REPLY_SEND_MSG_GNDCTRL2WCS_CMD_TYPE   0x9201
 
 #pragma pack (1) 
 typedef struct {
@@ -117,14 +76,6 @@ typedef struct {
         u16 maxSize; /* queue数组长度 */
 }MSG_SEND_QUEUE;
 
-
-extern u16  recv_gndpos_cnt;
-extern sGnd2Wcs_state_node  pregndposnod;
-
-extern u16 usart2_sentcount;
-extern u16 usart4_sentcount;
-extern u16 positionreset;
-
 void InitSendMsgQueue(void);
 void AddSendMsgToQueue(u16 msg);
 u16 GetSendMsgFromQueue(void);
@@ -133,24 +84,8 @@ void send_message_to_sever(void);
 void InitCarStateData(void);
 u8 recv_msg_check(u8 *point,u16 len);
 
-void InitGnd2WcsIntervalQueue(void);
-void AddToGnd2WcsIntervalQueue(sGndCtrl2WCS_Interval_Data x);
-sGndCtrl2WCS_Interval_Data* pxGetMsgFromIntervalQueue(sGndCtrl2WCS_Interval_Queue* q);
-
-void InitGnd2WcsStateQueue(void);
-void AddToGnd2WcsStateQueue(sGnd2Wcs_state_node x);
-
 extern sGndCtrl2WCS_CMD_Data  gnd2WcsCmdData;
 extern sWCS2GndCtrl_Para_Data wcs2GndParaData;
 extern sRepairCar_CMD_Data    repairCarCmdData;
-
-extern sGndCtrl2WCS_Interval_Data  carfunint;
-
-extern sGndCtrl2WCS_Interval_Queue  gnd2WcsIntervalQueue;
-
-extern sGnd2Wcs_state_node     gnd2wcsstatenode[];
-extern sGndCtrl2WCS_state_Queue    gndstatequeue;
-
-void fun_gnd2wcs_state_msg(void);
 
 #endif

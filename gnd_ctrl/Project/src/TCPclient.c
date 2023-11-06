@@ -678,80 +678,6 @@ void   udp_client_process(void)
             heart_dely = HEART_DELAY;
         }
     }
-
-    //cafun 110
-    if (tcp_client_list[1].tcp_client_statue == CLIENT_CONNECT_RECV)
-    {
-        carrecv_message_from_sever(&(tcp_client_list[1].tcp_recev_buf[0]), &(tcp_client_list[1].tcp_recev_len));
-        tcp_client_list[1].tcp_client_statue = CLIENT_CONNECT_OK;
-    }
-
-    if (tcp_client_list[1].connect_is_ok == 0)
-    {
-        creat_udp_connect_process(1);
-    }
-    else if (tcp_client_list[1].tcp_client_statue == CLIENT_DIS_CONNECT)
-    {
-        udp_echoclient_connect(1);
-    }
-    else if (tcp_client_list[1].tcp_client_statue == CLIENT_CONNECT_OK)
-    {
-        //·¢ËÍ
-        if (tcp_client_list[1].tcp_send_en == 1)
-        {
-            udp_send_process(1);
-            tcp_client_list[1].tcp_send_en = 0;
-        }
-    }
-
-    //cafun 111
-    if (tcp_client_list[2].tcp_client_statue == CLIENT_CONNECT_RECV)
-    {
-        cartworecv_message_from_sever(&(tcp_client_list[2].tcp_recev_buf[0]), &(tcp_client_list[2].tcp_recev_len));
-        tcp_client_list[2].tcp_client_statue = CLIENT_CONNECT_OK;
-    }
-
-    if (tcp_client_list[2].connect_is_ok == 0)
-    {
-        creat_udp_connect_process(2);
-    }
-    else if (tcp_client_list[2].tcp_client_statue == CLIENT_DIS_CONNECT)
-    {
-        udp_echoclient_connect(2);
-    }
-    else if (tcp_client_list[2].tcp_client_statue == CLIENT_CONNECT_OK)
-    {
-        //·¢ËÍ
-        if (tcp_client_list[2].tcp_send_en == 1)
-        {
-            udp_send_process(2);
-            tcp_client_list[2].tcp_send_en = 0;
-        }
-    }
-    //cafun 112
-    if (tcp_client_list[3].tcp_client_statue == CLIENT_CONNECT_RECV)
-    {
-        carthreerecv_message_from_sever(&(tcp_client_list[3].tcp_recev_buf[0]), &(tcp_client_list[3].tcp_recev_len));
-        tcp_client_list[3].tcp_client_statue = CLIENT_CONNECT_OK;
-    }
-
-    if (tcp_client_list[3].connect_is_ok == 0)
-    {
-        creat_udp_connect_process(3);
-    }
-    else if (tcp_client_list[3].tcp_client_statue == CLIENT_DIS_CONNECT)
-    {
-        udp_echoclient_connect(3);
-    }
-    else if (tcp_client_list[3].tcp_client_statue == CLIENT_CONNECT_OK)
-    {
-        //·¢ËÍ
-        if (tcp_client_list[3].tcp_send_en == 1)
-        {
-            udp_send_process(3);
-            tcp_client_list[3].tcp_send_en = 0;
-        }
-    }
 }
 
 #endif
@@ -769,33 +695,6 @@ void get_ip_para_process(u8 tcp_offset)
         tcp_client_list[tcp_offset].dest_ip[1] = DEST_IP_ADDR1;
         tcp_client_list[tcp_offset].dest_ip[2] = DEST_IP_ADDR2;
         tcp_client_list[tcp_offset].dest_ip[3] = DEST_IP_ADDR3;
-    }
-    if (tcp_offset == 1)
-    {
-        tcp_client_list[tcp_offset].dest_port = DEST_PORT_TWO;
-
-        tcp_client_list[tcp_offset].dest_ip[0] = DEST_IPTWO_ADDR0;
-        tcp_client_list[tcp_offset].dest_ip[1] = DEST_IPTWO_ADDR1;
-        tcp_client_list[tcp_offset].dest_ip[2] = DEST_IPTWO_ADDR2;
-        tcp_client_list[tcp_offset].dest_ip[3] = DEST_IPTWO_ADDR3;
-    }
-    if (tcp_offset == 2)
-    {
-        tcp_client_list[tcp_offset].dest_port = DEST_PORT_THREE;
-
-        tcp_client_list[tcp_offset].dest_ip[0] = DEST_IPTHREE_ADDR0;
-        tcp_client_list[tcp_offset].dest_ip[1] = DEST_IPTHREE_ADDR1;
-        tcp_client_list[tcp_offset].dest_ip[2] = DEST_IPTHREE_ADDR2;
-        tcp_client_list[tcp_offset].dest_ip[3] = DEST_IPTHREE_ADDR3;
-    }
-    if (tcp_offset == 3)
-    {
-        tcp_client_list[tcp_offset].dest_port = DEST_PORT_FOUR;
-
-        tcp_client_list[tcp_offset].dest_ip[0] = DEST_IPFOUR_ADDR0;
-        tcp_client_list[tcp_offset].dest_ip[1] = DEST_IPFOUR_ADDR1;
-        tcp_client_list[tcp_offset].dest_ip[2] = DEST_IPFOUR_ADDR2;
-        tcp_client_list[tcp_offset].dest_ip[3] = DEST_IPFOUR_ADDR3;
     }
 }
 /******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/

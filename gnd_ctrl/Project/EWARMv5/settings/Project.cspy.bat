@@ -10,6 +10,6 @@
 @REM 
 
 
-"G:\IAR6.10\common\bin\cspybat" "G:\IAR6.10\arm\bin\armproc.dll" "G:\IAR6.10\arm\bin\armjlink.dll"  %1 --plugin "G:\IAR6.10\arm\bin\armbat.dll" --flash_loader "G:\IAR6.10\arm\config\flashloader\ST\FlashSTM32F10xxC.board" --backend -B "--endian=little" "--cpu=Cortex-M3" "--fpu=None" "-p" "G:\IAR6.10\arm\CONFIG\debugger\ST\iostm32f10xxE.ddf" "--semihosting" "--device=STM32F10xxC" "--drv_communication=USB0" "--jlink_speed=auto" "--jlink_initial_speed=32" "--jlink_reset_strategy=0,0" "--jlink_interface=SWD" "--drv_catch_exceptions=0x000" 
+"H:\softwareinstall\IAR\common\bin\cspybat" "H:\softwareinstall\IAR\arm\bin\armproc.dll" "H:\softwareinstall\IAR\arm\bin\armjlink.dll"  %1 --plugin "H:\softwareinstall\IAR\arm\bin\armbat.dll" --flash_loader "H:\softwareinstall\IAR\arm\config\flashloader\ST\FlashSTM32F10xxC.board" --backend -B "--endian=little" "--cpu=Cortex-M3" "--fpu=None" "-p" "H:\softwareinstall\IAR\arm\CONFIG\debugger\ST\iostm32f10xxE.ddf" "--semihosting" "--device=STM32F10xxC" "--drv_communication=USB0" "--jlink_speed=auto" "--jlink_initial_speed=32" "--jlink_reset_strategy=0,0" "--jlink_interface=SWD" "--drv_catch_exceptions=0x000" 
 
 

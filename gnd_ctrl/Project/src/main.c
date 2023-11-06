@@ -34,8 +34,6 @@ __IO uint32_t LocalTime = 0; /* this variable is used to create a time reference
 uint32_t timingdelay;
 u16 sec_reg = 100;
 u16 sec_flag = 0;
-u16 interval_ms_flag = 0;
-
 u16 fwInitHz = 0;
 u16 servo_hz = 0;
 u8  servo_start = 0;
@@ -45,8 +43,6 @@ u8  repair_flag = 0;
 u16 repair_locate_real = 0;
 u8  inverter_type = 0;//±‰∆µ∆˜¿‡–Õ
 u8  msg_send_delay = 10;
-u8  version[4] = { 0 };
-
 
 
 /* Private function prototypes -----------------------------------------------*/
@@ -79,11 +75,6 @@ void scan_dip_state(void)
         }
     }
     inverter_type = (~dip_value)&0x7;
-    version[0] = 12;
-    version[1] = 0;
-    version[2] = 0;
-    version[3] = 2;
-//    inverter_type = 4;
 }
 //1s
 void sec_process(void)
@@ -108,10 +99,17 @@ void sec_process(void)
         }
         if(servo_start == 0 && repair_flag == 0)
         {
-            RS485_OUT(fwInitHz);
+            if (keep_in_paire == REPAIRE_NONE) {
+                RS485_OUT(fwInitHz);
+            }
         }
-//        ServoFreqSet(350, 0);
-//        ServoFreqSet(4000);
+
+        if (paire_start_time_cnt != 0)
+        {
+            paire_start_time_cnt--;
+        }
+
+        Input_keep_in_repaire_process();
 //        if(msg_send_delay != 0)
 //        {
 //            msg_send_delay--;
@@ -134,13 +132,8 @@ int main(void)
 {
     System_Setup();
     InitSendMsgQueue();
-    InitGnd2WcsIntervalQueue();
     scan_dip_state();
-    InitGnd2WcsStateQueue();
     gnd2WcsCmdData.speed = 0;
-    carInitSendMsgQueue();
-    carthreeInitSendMsgQueue();
-    cartwoInitSendMsgQueue();
     /* Infinite loop */
     while (1)
     {
@@ -154,19 +147,9 @@ int main(void)
         }
         else
         {
-            if (ETH_GetRxPktSize() != 0)
-            {
-                LwIP_Pkt_Handle();
-            }
             LwIP_Periodic_Handle(LocalTime);
             udp_client_process();
             send_message_to_sever();
-            fun_gnd2wcs_state_msg();
-            carsend_message_to_sever();
-            carthreesend_message_to_sever();
-            cartwosend_message_to_sever();
-            usart2_recv_process();
-
         }
         sec_process();
     }
@@ -202,30 +185,11 @@ void Time_Update(void)
         sec_reg--;
         if( sec_reg == 0 )
         {
-            sec_reg = 1000;
+            sec_reg = 100;
             sec_flag = 1;
         }
     }
-    if (recv_gndpos_cnt != 0) {
-        recv_gndpos_cnt--;
-        if (recv_gndpos_cnt == 0) {
-//            AddToGnd2WcsStateQueue(pregndposnod);
-        }
-    }
-    if(usart4_sentcount !=0){
-      usart4_sentcount--;
-    }
-    if(usart2_sentcount !=0){
-      usart2_sentcount--;
-    }
-    if (positionreset != 0) {
-        positionreset--;
-        if (positionreset == 0) {
-            carAddSendMsgToQueue(CAR_MSG_GNDCTRL2WCS_CMD_INTERVAL_TYPE);
-        }
-    }
     InputScanProc();
-    position_ouput_out();
 //    if((stop_time_delay != 0) && (servo_start == 1))
 //    {
 //        stop_time_delay--;
@@ -236,9 +200,6 @@ void Time_Update(void)
 //        }
 //    }
     //    uart_recv_timeout();
-
-
-      
 }
 
 

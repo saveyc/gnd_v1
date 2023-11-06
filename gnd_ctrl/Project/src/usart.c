@@ -30,13 +30,6 @@ u16 uart1_recv_count;
 u8  uart1_commu_state;
 u16 uart1_tmr = 0;
 
-
-u8  record_uart2_buff[20];
-u8  record_uart2_len = 0;
-
-u8  record_uart4_buff[20];
-u8  record_uart4_len = 0;
-
 void uart_recv_timeout(void)
 {
     if( uart4_tmr != 0 )
@@ -75,7 +68,7 @@ void uart_recv_timeout(void)
 
 void uart4_send(void)
 {
-        u16 i;
+    //    u16 i;
     //
     //    UART4_TX_485;
     //
@@ -95,20 +88,6 @@ void uart4_send(void)
     DMA_SetCurrDataCounter(DMA2_Channel5, uart4_send_count);
     USART_DMACmd(UART4, USART_DMAReq_Tx, ENABLE);
     DMA_Cmd(DMA2_Channel5, ENABLE);
-    
-
-    uart4_recv_count = 0;
-
-    record_uart4_len = uart4_send_count;
-    if (record_uart4_len > 15) {
-        record_uart4_len = 0;
-        return;
-    }
-
-    for (i = 0; i < record_uart4_len; i++) {
-        record_uart4_buff[i] = uart4_send_buff[i];
-        AddSendMsgToQueue(SEND_UART4_MSG);
-    }
 }
 
 void uart5_send(void)
@@ -130,8 +109,7 @@ void uart5_send(void)
 
 void uart2_send(void)
 {
-
-        u16 i;
+    //    u16 i;
     //
     //    USART2_TX_485;
     //
@@ -151,25 +129,6 @@ void uart2_send(void)
     DMA_SetCurrDataCounter(DMA1_Channel7, uart2_send_count);
     USART_DMACmd(USART2, USART_DMAReq_Tx, ENABLE);
     DMA_Cmd(DMA1_Channel7, ENABLE);
-    
-//    for(i = 0 ; i < uart2_send_count ; i++)
-//    {
-//        USART_SendData(USART2, uart2_send_buff[i]);
-//        while (USART_GetFlagStatus(USART2, USART_FLAG_TC) == RESET);
-//    }
-
-    record_uart2_len = uart2_send_count;
-    if (record_uart2_len > 15) {
-        record_uart2_len = 0;
-        return;
-    }
-
-    for (i = 0; i < record_uart2_len; i++) {
-        record_uart2_buff[i] = uart2_send_buff[i];
-        AddSendMsgToQueue(SEND_UART2_MSG);
-    }
-
-
 }
 
 void uart1_send(void)
@@ -259,24 +218,23 @@ u16 CRC_sub( u8 *head, u8 *tail, u16 InitVal, u8 exchange )
     }
     return(result);
 }
-
 u16 get_CRC( u8 *head, u16 len )
 {
     return( CRC_sub( head, head + len, 0xFFFF, 0 ) );
 }
-
-void ServoFreqSet(u16 hz , u8 type)
+void ServoFreqSet(u16 hz)
 {
     u8 pbuf[50];
     u16 crc;
     u16 i;
     u16 hz_t;
 
-    if (type == 0) {
-        pbuf[0] = 0x9B;
+    if(inverter_type == 0)//东芝变频器
+    {
+        pbuf[0] = 0x00;
         pbuf[1] = 0x06;
-        pbuf[2] = 0x10;
-        pbuf[3] = 0x3A;
+        pbuf[2] = 0xFA;
+        pbuf[3] = 0x01;
         pbuf[4] = (hz >> 8) & 0xFF;
         pbuf[5] = hz & 0xFF;
         crc = get_CRC(pbuf, 6);
@@ -291,15 +249,17 @@ void ServoFreqSet(u16 hz , u8 type)
         uart2_send_count = 8;
         uart4_send_count = 8;
     }
-    if (type == 1){
-        pbuf[0] = 0x9B;
-        pbuf[1] = 0x03;
-        pbuf[2] = 0x0F;
-        pbuf[3] = 0xD2;
-        pbuf[4] = 0x00;
-        pbuf[5] = 0x01;
-        pbuf[6] = 0x3A;
-        pbuf[7] = 0xDD;
+    else if(inverter_type == 1)//台达变频器
+    {
+        pbuf[0] = 0x00;
+        pbuf[1] = 0x06;
+        pbuf[2] = 0x20;
+        pbuf[3] = 0x01;
+        pbuf[4] = (hz >> 8) & 0xFF;
+        pbuf[5] = hz & 0xFF;
+        crc = get_CRC(pbuf, 6);
+        pbuf[6] = (crc >> 8) & 0xFF;
+        pbuf[7] = crc & 0xFF;
 
         for (i = 0; i < 8; i++)
         {
@@ -309,71 +269,41 @@ void ServoFreqSet(u16 hz , u8 type)
         uart2_send_count = 8;
         uart4_send_count = 8;
     }
-   
+    else if (inverter_type == 2)
+    {
+    hz_t = (u16)((hz / 5000.0) * 0x4000);
+
+    pbuf[0] = 0x01;
+    pbuf[1] = 0x10;
+    pbuf[2] = 0x00;
+    pbuf[3] = 0x63;
+    pbuf[4] = 0x00;
+    pbuf[5] = 0x02;
+    pbuf[6] = 0x04;
+    pbuf[7] = 0x04;
+    pbuf[8] = 0x7F;
+    pbuf[9] = (hz_t >> 8) & 0xFF;
+    pbuf[10] = hz_t & 0xFF;
+    crc = get_CRC(pbuf, 11);
+    pbuf[11] = (crc >> 8) & 0xFF;
+    pbuf[12] = crc & 0xFF;
+
+    for (i = 0; i < 13; i++)
+    {
+        uart2_send_buff[i] = pbuf[i];
+        uart4_send_buff[i] = pbuf[i];
+    }
+    uart2_send_count = 13;
+    uart4_send_count = 13;
+    }
+    else
+    {
+    return;
+    }
     
     uart2_send();//dma
     uart4_send();//dma
 }
-
-
-void usart2_moto_recv_now_process(void)
-{
-    u8 i;
-    u16 value = 0;
-    u8 buf[10] = { 0 };
-    u16 crc;
-    for (i = 0; i < UART2_BUFF_SIZE; i++) {
-        if (uart2_recv_buff[i] == 0x9B) {
-            break;
-        }
-    }
-
-
-    if (uart2_recv_buff[i] == 0x9B)
-    {
-        if (uart2_recv_count >= 7 && uart2_recv_count < 50)
-        {
-            if ((uart2_recv_buff[i + 1] == 0x03) && (uart2_recv_buff[i + 2] == 0x02))
-            {
-                buf[0] = uart2_recv_buff[i];
-                buf[1] = uart2_recv_buff[i + 1];
-                buf[2] = uart2_recv_buff[i + 2];
-                buf[3] = uart2_recv_buff[i + 3];
-                buf[4] = uart2_recv_buff[i + 4];
-                crc = get_CRC(buf, 5);
-                if ((((crc >> 8) & 0xFF) == uart2_recv_buff[i + 5]) && ((crc & 0xFF) == uart2_recv_buff[i + 6])) {
-                    position_speed = (uart2_recv_buff[i + 3] << 8) | uart2_recv_buff[i + 4];
-                    position_speed = 150000 / position_speed;
-                }
-
-            }
-        }
-    }
-}
-
-void usart2_recv_process(void)
-{
-  
-    if(USART_GetFlagStatus(USART2, USART_FLAG_TC) != RESET)
-    {
-        USART_ClearFlag(USART2, USART_FLAG_TC);
-        uart2_recv_count = 0;
-        USART2_RX_485;
-    }
-
-    if (USART_GetFlagStatus(USART2, USART_FLAG_RXNE) != RESET)
-    {
-
-        if (uart2_recv_count >= UART2_BUFF_SIZE) {
-            USART_ClearFlag(USART2, USART_FLAG_RXNE);
-            return;
-        }
-        uart2_recv_buff[uart2_recv_count] = USART_ReceiveData(USART2) & 0xFF;
-        uart2_recv_count++;
-        usart2_moto_recv_now_process();
-    }
-}
-
 #if 0
 void UartSendPidCnt(u16 extid, u32 cnt)
 {
@@ -422,7 +352,6 @@ void UartSendPidCnt(u16 extid, u32 cnt)
         //uart1_send();
     }
 }
-
 #else
 extern int   fwHz;
 void UartSendPidCnt(u16 extid,u32 cnt)
@@ -480,7 +409,6 @@ void UartSendCarNo(u16 carNo)
     uart5_send_count = 3;
     uart5_send();
 }
-
 void RS485_Test(u32 cnt)
 {
     uart4_send_count = sprintf(uart4_send_buff, "uart4_r8_send:%d\n" , cnt);

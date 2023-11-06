@@ -89,7 +89,9 @@ void repair_car_para_init(void)
     {
         if(cal_distance_to_real_locate() > 2)
         {
-            RS485_OUT(repairCarCmdData.standard_hz);
+            if (keep_in_paire == REPAIRE_NONE) {
+                RS485_OUT(repairCarCmdData.standard_hz);
+            }
         }
         else//跟目标位置小于两个车无需调节
         {
@@ -98,7 +100,9 @@ void repair_car_para_init(void)
     }
     else
     {
-        RS485_OUT(repairCarCmdData.standard_hz);
+        if (keep_in_paire == REPAIRE_NONE) {
+            RS485_OUT(repairCarCmdData.standard_hz);
+        }
     }
 }
 void repairLocationCtrl(void)
@@ -119,7 +123,7 @@ void repairLocationCtrl(void)
     {
         outputHz = (repairCarCmdData.standard_hz + maxHz)/2;
     }
-    else if(targetDistance > 2+ repairCarCmdData.adjust_para)
+    else if(targetDistance > 2)
     {
         outputHz = repairCarCmdData.standard_hz;
     }
@@ -128,7 +132,9 @@ void repairLocationCtrl(void)
         outputHz = 0;
         repair_flag = 0;
     }
-    RS485_OUT(outputHz);
+    if (keep_in_paire == REPAIRE_NONE) {
+        RS485_OUT(outputHz);
+    }
 }
 void TIM_EXTI_Process(u16 extid)
 {
@@ -188,36 +194,16 @@ void TIM_EXTI_Process(u16 extid)
         }
         if(extid == timExtiHandler.extid + 1) //必须是顺序的两个光电开关
         {
-
-            if (timUpdates <= 1)
+            cnt = (TIM_GetCounter(TIM2) + 0xFFFF * timUpdates) - (timExtiHandler.timCnt);
+            timUpdates = 0;
+            timExtiHandler.extid = extid;
+            timExtiHandler.timCnt = TIM_GetCounter(TIM2);
+            if(servo_start == 1)
             {
-                cnt = (TIM_GetCounter(TIM2) + 0xFFFF * timUpdates) - (timExtiHandler.timCnt);
-                if (cnt <= 0xFFFF)
-                {
-                    timUpdates = 0;
-                    timExtiHandler.extid = extid;
-                    timExtiHandler.timCnt = TIM_GetCounter(TIM2);
-                    if (servo_start == 1)
-                    {
-                        fwPIDctrl(cnt * 50);
-                    }
-                    //UartSendPidCnt(extid, cnt);//DEBUG
-                    gnd2WcsCmdData.speed = cnt;
-                }
-                else
-                {
-                    timUpdates = 0;
-                    timExtiHandler.extid = extid;
-                    timExtiHandler.timCnt = TIM_GetCounter(TIM2);
-
-                }
+                fwPIDctrl(cnt * 50);
             }
-            else
-            {
-                timUpdates = 0;
-                timExtiHandler.extid = extid;
-                timExtiHandler.timCnt = TIM_GetCounter(TIM2);
-            }
+            //UartSendPidCnt(extid, cnt);//DEBUG
+            gnd2WcsCmdData.speed = cnt;
         }
         else
         {

@@ -46,7 +46,7 @@ void TIM_Configuration(void)
 {
     TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
 
-    /***************************定时器2设置************************************/
+    /************************************************定时器4设置********************************************************/
     /* 基础设置*/
     TIM_TimeBaseStructure.TIM_Period = 65535;//1000;  			//1MS
     TIM_TimeBaseStructure.TIM_Prescaler = 3600;//72000;    	//预分频
@@ -62,23 +62,6 @@ void TIM_Configuration(void)
     TIM_ITConfig(TIM2, TIM_IT_Update, ENABLE);
     /* 允许TIM2开始计数 */
     TIM_Cmd(TIM2, ENABLE);
-    
-    /*****************************定时器3设置**********************************/
-    /* 基础设置*/
-    TIM_TimeBaseStructure.TIM_Period = 1000;  			//1MS
-    TIM_TimeBaseStructure.TIM_Prescaler = 72-1;    	//预分频
-    TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
-    TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up; 	//向上计数
-    TIM_TimeBaseInit(TIM3, &TIM_TimeBaseStructure);
-
-    /*使能预装载*/
-    TIM_ARRPreloadConfig(TIM3, ENABLE);
-    /*预先清除所有中断位*/
-    TIM_ClearITPendingBit(TIM3, TIM_IT_Update);
-    /*溢出都配置中断*/
-    TIM_ITConfig(TIM3, TIM_IT_Update, ENABLE);
-    /* 允许TIM2开始计数 */
-    TIM_Cmd(TIM3, ENABLE);
 }
 /***************************************************************************
 
@@ -127,21 +110,21 @@ void EXTI_Configuration(void)
 //    EXTI_InitStructure.EXTI_LineCmd = ENABLE;
 //    EXTI_Init(&EXTI_InitStructure);
     //IN6
-    //GPIO_EXTILineConfig(GPIO_PortSourceGPIOE, GPIO_PinSource4);
-    //EXTI_ClearITPendingBit(EXTI_Line4);
-    //EXTI_InitStructure.EXTI_Line = EXTI_Line4;
-    //EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
-    //EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising;
-    //EXTI_InitStructure.EXTI_LineCmd = ENABLE;
-    //EXTI_Init(&EXTI_InitStructure);
-    ////IN7
-    //GPIO_EXTILineConfig(GPIO_PortSourceGPIOE, GPIO_PinSource5);
-    //EXTI_ClearITPendingBit(EXTI_Line5);
-    //EXTI_InitStructure.EXTI_Line = EXTI_Line5;
-    //EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
-    //EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising;
-    //EXTI_InitStructure.EXTI_LineCmd = ENABLE;
-    //EXTI_Init(&EXTI_InitStructure);
+    GPIO_EXTILineConfig(GPIO_PortSourceGPIOE, GPIO_PinSource4);
+    EXTI_ClearITPendingBit(EXTI_Line4);
+    EXTI_InitStructure.EXTI_Line = EXTI_Line4;
+    EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
+    EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising;
+    EXTI_InitStructure.EXTI_LineCmd = ENABLE;
+    EXTI_Init(&EXTI_InitStructure);
+    //IN7
+    GPIO_EXTILineConfig(GPIO_PortSourceGPIOE, GPIO_PinSource5);
+    EXTI_ClearITPendingBit(EXTI_Line5);
+    EXTI_InitStructure.EXTI_Line = EXTI_Line5;
+    EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
+    EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising;
+    EXTI_InitStructure.EXTI_LineCmd = ENABLE;
+    EXTI_Init(&EXTI_InitStructure);
 //    //IN8
 //    GPIO_EXTILineConfig(GPIO_PortSourceGPIOE, GPIO_PinSource6);
 //    EXTI_ClearITPendingBit(EXTI_Line6);
@@ -159,13 +142,13 @@ void EXTI_Configuration(void)
 //    EXTI_InitStructure.EXTI_LineCmd = ENABLE;
 //    EXTI_Init(&EXTI_InitStructure);
     //IN10
-    //GPIO_EXTILineConfig(GPIO_PortSourceGPIOE, GPIO_PinSource7);
-    //EXTI_ClearITPendingBit(EXTI_Line7);
-    //EXTI_InitStructure.EXTI_Line = EXTI_Line7;
-    //EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
-    //EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising;
-    //EXTI_InitStructure.EXTI_LineCmd = ENABLE;
-    //EXTI_Init(&EXTI_InitStructure);
+    GPIO_EXTILineConfig(GPIO_PortSourceGPIOE, GPIO_PinSource7);
+    EXTI_ClearITPendingBit(EXTI_Line7);
+    EXTI_InitStructure.EXTI_Line = EXTI_Line7;
+    EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
+    EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising;
+    EXTI_InitStructure.EXTI_LineCmd = ENABLE;
+    EXTI_Init(&EXTI_InitStructure);
 }
 /*****************************************************************************8
 
@@ -175,12 +158,16 @@ void USART_Configuration(void)
     USART_InitTypeDef USART_InitStructure;
 
     USART_InitStructure.USART_BaudRate = UART_BANDRATE;
-
-
-    USART_InitStructure.USART_BaudRate = 9600;
-    USART_InitStructure.USART_WordLength = USART_WordLength_9b;
-    USART_InitStructure.USART_Parity = USART_Parity_Odd;
-
+    if (inverter_type == 2)
+    {
+        USART_InitStructure.USART_WordLength = USART_WordLength_9b;
+        USART_InitStructure.USART_Parity = USART_Parity_Even;
+    }
+    else
+    {
+        USART_InitStructure.USART_WordLength = USART_WordLength_8b;
+        USART_InitStructure.USART_Parity = USART_Parity_No;
+    }
     USART_InitStructure.USART_StopBits = USART_StopBits_1;
     USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
     USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
@@ -191,9 +178,9 @@ void USART_Configuration(void)
     USART_Cmd(UART4, ENABLE);
 
     USART_InitStructure.USART_BaudRate = 38400;
-    USART_InitStructure.USART_WordLength = USART_WordLength_9b;
+    USART_InitStructure.USART_WordLength = USART_WordLength_8b;
     USART_InitStructure.USART_StopBits = USART_StopBits_1;
-    USART_InitStructure.USART_Parity = USART_Parity_Odd;
+    USART_InitStructure.USART_Parity = USART_Parity_No;
     USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
     USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
 
@@ -201,11 +188,17 @@ void USART_Configuration(void)
     //USART_ITConfig(UART5, USART_IT_RXNE,ENABLE);
     USART_Cmd(UART5, ENABLE);
 
-    USART_InitStructure.USART_BaudRate = 9600;
-    USART_InitStructure.USART_WordLength = USART_WordLength_9b;
-    USART_InitStructure.USART_Parity = USART_Parity_Odd;
-
-
+    USART_InitStructure.USART_BaudRate = UART_BANDRATE;
+    if (inverter_type == 2)
+    {
+        USART_InitStructure.USART_WordLength = USART_WordLength_9b;
+        USART_InitStructure.USART_Parity = USART_Parity_Even;
+    }
+    else
+    {
+        USART_InitStructure.USART_WordLength = USART_WordLength_8b;
+        USART_InitStructure.USART_Parity = USART_Parity_No;
+    }
     USART_InitStructure.USART_StopBits = USART_StopBits_1;
     USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
     USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
@@ -215,11 +208,17 @@ void USART_Configuration(void)
     USART_DMACmd(USART2, USART_DMAReq_Tx, DISABLE);
     USART_Cmd(USART2, ENABLE);
 
-
-   USART_InitStructure.USART_BaudRate = 9600;
-   USART_InitStructure.USART_WordLength = USART_WordLength_8b;
-   USART_InitStructure.USART_Parity = USART_Parity_Odd;
-
+    USART_InitStructure.USART_BaudRate = UART_BANDRATE;
+    if (inverter_type == 2)
+    {
+        USART_InitStructure.USART_WordLength = USART_WordLength_9b;
+        USART_InitStructure.USART_Parity = USART_Parity_Even;
+    }
+    else
+    {
+        USART_InitStructure.USART_WordLength = USART_WordLength_8b;
+        USART_InitStructure.USART_Parity = USART_Parity_No;
+    }
     USART_InitStructure.USART_StopBits = USART_StopBits_1;
     USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
     USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
@@ -282,7 +281,7 @@ void System_Setup(void)
     SystemInit();
 
     /* Enable USART2 clock */
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2 | RCC_APB1Periph_TIM3 | RCC_APB1Periph_USART2 | RCC_APB1Periph_UART4 | RCC_APB1Periph_UART5 
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2 | RCC_APB1Periph_USART2 | RCC_APB1Periph_UART4 | RCC_APB1Periph_UART5 
                            | RCC_APB1Periph_PWR | RCC_APB1Periph_BKP, ENABLE);
 
 
@@ -309,7 +308,7 @@ void System_Setup(void)
 
     /* SystTick configuration: an interrupt every 10ms */
     RCC_GetClocksFreq(&RCC_Clocks);
-    SysTick_Config(RCC_Clocks.SYSCLK_Frequency / 1000);
+    SysTick_Config(RCC_Clocks.SYSCLK_Frequency / 100);
 
     /* Update the SysTick IRQ priority should be higher than the Ethernet IRQ */
     /* The Localtime should be updated during the Ethernet packets processing */
@@ -570,7 +569,7 @@ void GPIO_Configuration(void)
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_Init(GPIOC, &GPIO_InitStructure);
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5 //IN2,IN3,IN4,IN5,IN6,IN7
-                                | GPIO_Pin_6 | GPIO_Pin_7;  //IN8,IN10
+                                | GPIO_Pin_6 | GPIO_Pin_7 | GPIO_Pin_9;  //IN8,IN10
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_Init(GPIOE, &GPIO_InitStructure);
@@ -579,21 +578,6 @@ void GPIO_Configuration(void)
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_Init(GPIOA, &GPIO_InitStructure);
-
-    //OUT1 OUT2 OUT3 
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_Init(GPIOC, &GPIO_InitStructure);
-
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_14 | GPIO_Pin_15;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_Init(GPIOB, &GPIO_InitStructure);
-
-    USART2_RX_485;
-    OUTONE_OFF;
-    OUTTWO_OFF;
     
 }
 
@@ -619,7 +603,7 @@ void NVIC_Configuration(void)
     NVIC_InitStructure.NVIC_IRQChannel = ETH_IRQn;
     NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;
     NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
-    NVIC_InitStructure.NVIC_IRQChannelCmd = DISABLE;
+    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
     NVIC_Init(&NVIC_InitStructure);
 
     //NVIC_PriorityGroupConfig(NVIC_PriorityGroup_0);
@@ -651,18 +635,18 @@ void NVIC_Configuration(void)
 //    NVIC_Init(&NVIC_InitStructure);
     
     //NVIC_PriorityGroupConfig(NVIC_PriorityGroup_0);
-    //NVIC_InitStructure.NVIC_IRQChannel = EXTI4_IRQn;
-    //NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
-    //NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
-    //NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-    //NVIC_Init(&NVIC_InitStructure);
+    NVIC_InitStructure.NVIC_IRQChannel = EXTI4_IRQn;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    NVIC_Init(&NVIC_InitStructure);
 
-    ////NVIC_PriorityGroupConfig(NVIC_PriorityGroup_0);
-    //NVIC_InitStructure.NVIC_IRQChannel = EXTI9_5_IRQn;
-    //NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
-    //NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
-    //NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-    //NVIC_Init(&NVIC_InitStructure);
+    //NVIC_PriorityGroupConfig(NVIC_PriorityGroup_0);
+    NVIC_InitStructure.NVIC_IRQChannel = EXTI9_5_IRQn;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    NVIC_Init(&NVIC_InitStructure);
 
     //NVIC_PriorityGroupConfig(NVIC_PriorityGroup_0);
 //    NVIC_InitStructure.NVIC_IRQChannel = EXTI15_10_IRQn;
@@ -674,14 +658,6 @@ void NVIC_Configuration(void)
     /* Timer2中断*/
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
     NVIC_InitStructure.NVIC_IRQChannel = TIM2_IRQn;
-    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
-    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 2;
-    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-    NVIC_Init(&NVIC_InitStructure);
-    
-    /* Timer3中断*/
-    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
-    NVIC_InitStructure.NVIC_IRQChannel = TIM3_IRQn;
     NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
     NVIC_InitStructure.NVIC_IRQChannelSubPriority = 2;
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;

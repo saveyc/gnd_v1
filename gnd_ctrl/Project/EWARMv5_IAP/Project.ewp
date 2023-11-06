@@ -211,7 +211,7 @@
         <option>
           <name>CCAllowList</name>
           <version>1</version>
-          <state>0000000</state>
+          <state>1111111</state>
         </option>
         <option>
           <name>CCDebugInfo</name>
@@ -311,7 +311,7 @@
         </option>
         <option>
           <name>CCOptLevel</name>
-          <state>1</state>
+          <state>3</state>
         </option>
         <option>
           <name>CCOptStrategy</name>
@@ -320,7 +320,7 @@
         </option>
         <option>
           <name>CCOptLevelSlave</name>
-          <state>1</state>
+          <state>3</state>
         </option>
         <option>
           <name>CompilerMisraRules98</name>
@@ -562,7 +562,7 @@
         </option>
         <option>
           <name>OOCOutputFile</name>
-          <state>gnd_ctrl_v2.0.12_20231106_8pul_7offset.bin</state>
+          <state>gnd_ctrl_v2.0.5.bin</state>
         </option>
         <option>
           <name>OOCCommandLineProducer</name>
@@ -1036,22 +1036,13 @@
   <group>
     <name>User</name>
     <file>
-      <name>$PROJ_DIR$\..\src\carfun.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\src\carfunthree.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\src\carfuntwo.c</name>
-    </file>
-    <file>
       <name>$PROJ_DIR$\..\src\delay.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\src\fun.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\src\gpio.c</name>
+      <name>$PROJ_DIR$\..\src\input.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\src\main.c</name>

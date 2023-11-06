@@ -1,3 +1,6 @@
+#ifndef _TIMEEXTI_H
+#define _TIMEEXTI_H
+
 typedef struct
 {
     u16 extid;  //光电开关序号(1~7)
@@ -16,3 +19,5 @@ extern u16 second_stage_hz;
 void TIM_EXTI_Process(u16 extid);
 void repair_car_para_init(void);
 void repairLocationCtrl(void);
+
+#endif

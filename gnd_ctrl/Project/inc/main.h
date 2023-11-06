@@ -33,11 +33,7 @@
 #include "fun.h"
 #include "timExti.h"
 #include "speed_ctrl.h"
-#include "carfun.h"
-#include "carfun.h"
-#include "carfuntwo.h"
-#include "carfunthree.h"
-#include "gpio.h"
+#include "input.h"
 //#include "delay.h"
    
 #define  USE_UDP
@@ -51,7 +47,7 @@ void Delay(uint32_t nCount);
 #define  ETH_SUCCESS            ((uint32_t)1)
 #define  DP83848_PHY_ADDRESS       0x01
 
-#define	TCP_RECEV_BUFF_SIZE		1500
+#define	TCP_RECEV_BUFF_SIZE		2048
 #define	CLIENT_DIS_CONNECT		0
 #define	CLIENT_CONNECT_OK		1
 #define	CLIENT_CONNECT_RECV		2
@@ -63,25 +59,6 @@ void Delay(uint32_t nCount);
 #define DEST_IP_ADDR3   13
 #define DEST_PORT       9902
 
-
-#define DEST_IPTWO_ADDR0   192
-#define DEST_IPTWO_ADDR1   168
-#define DEST_IPTWO_ADDR2   10
-#define DEST_IPTWO_ADDR3   110
-#define DEST_PORT_TWO      9000
-
-#define DEST_IPTHREE_ADDR0   192
-#define DEST_IPTHREE_ADDR1   168
-#define DEST_IPTHREE_ADDR2   10
-#define DEST_IPTHREE_ADDR3   111
-#define DEST_PORT_THREE      9000
-
-#define DEST_IPFOUR_ADDR0   192
-#define DEST_IPFOUR_ADDR1   168
-#define DEST_IPFOUR_ADDR2   10
-#define DEST_IPFOUR_ADDR3   112
-#define DEST_PORT_FOUR      9000
-
 #define LOCAL_UDP_PORT  DEST_PORT
 /* MAC ADDRESS: MAC_ADDR0:MAC_ADDR1:MAC_ADDR2:MAC_ADDR3:MAC_ADDR4:MAC_ADDR5 */
 #define MAC_ADDR0   0
@@ -89,7 +66,7 @@ void Delay(uint32_t nCount);
 #define MAC_ADDR2   0
 #define MAC_ADDR3   0
 #define MAC_ADDR4   0
-#define MAC_ADDR5   3
+#define MAC_ADDR5   2
 /*Static IP ADDRESS: IP_ADDR0.IP_ADDR1.IP_ADDR2.IP_ADDR3 */
 #define IP_ADDR0   192
 #define IP_ADDR1   168
@@ -117,15 +94,11 @@ void Delay(uint32_t nCount);
 #define  EXT9_STATE             GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_13)
 #define  EXT10_STATE            GPIO_ReadInputDataBit(GPIOE,GPIO_Pin_7)
 
-#define	 LED_STATE		        GPIO_ReadOutputDataBit(GPIOC, GPIO_Pin_8)
-#define	 LED_ON			        GPIO_ResetBits(GPIOC,GPIO_Pin_8)
-#define	 LED_OFF		        GPIO_SetBits(GPIOC,GPIO_Pin_8)
+#define  IN_16_STATE             GPIO_ReadInputDataBit(GPIOE,GPIO_Pin_9)
 
-#define	 OUTONE_ON			GPIO_SetBits(GPIOC,GPIO_Pin_0)
-#define	 OUTONE_OFF		        GPIO_ResetBits(GPIOC,GPIO_Pin_0)
-
-#define	 OUTTWO_ON		     	GPIO_SetBits(GPIOB,GPIO_Pin_14)
-#define	 OUTTWO_OFF		        GPIO_ResetBits(GPIOB,GPIO_Pin_14)
+#define	 LED_STATE		GPIO_ReadOutputDataBit(GPIOC, GPIO_Pin_8)
+#define	 LED_ON			GPIO_ResetBits(GPIOC,GPIO_Pin_8)
+#define	 LED_OFF		GPIO_SetBits(GPIOC,GPIO_Pin_8)
 
 #define  DIP1_STATE             GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_4)
 #define  DIP2_STATE             GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_5)
@@ -186,7 +159,7 @@ void uart4_send(void);
 void uart5_send(void);
 void uart2_send(void);
 void uart1_send(void);
-void ServoFreqSet(u16 hz, u8 type);
+void ServoFreqSet(u16 hz);
 void scan_dip_state(void);
 
 #define HEART_DELAY   5
@@ -200,17 +173,7 @@ extern u8  reset_flag;
 extern u16 repair_locate_real;
 extern u8  inverter_type;
 extern u8  msg_send_delay;
-extern u8  version[];
-extern u16  interval_ms_flag;
 
-
-extern u8  record_uart2_buff[];
-extern u8  record_uart2_len;
-
-extern u8  record_uart4_buff[];
-extern u8  record_uart4_len;
-
-void usart2_recv_process(void);
 
 #ifdef __cplusplus
 }

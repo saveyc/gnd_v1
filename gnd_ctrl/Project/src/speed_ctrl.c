@@ -49,7 +49,7 @@ int RS485_OUT(int val)
     //通过RS485输出val
     servo_hz = val;
     
-//    ServoFreqSet(val);
+    ServoFreqSet(val);
 
     return 0;
 }
@@ -280,7 +280,9 @@ int fwPIDctrl(int pe_time)
         fwHz =  0;
     }
     
-    RS485_OUT(fwHz);//485输出到变频器
+    if (keep_in_paire == REPAIRE_NONE) {
+        RS485_OUT(fwHz);
+    }                                          //485输出到变频器
 
     return 0;
 
