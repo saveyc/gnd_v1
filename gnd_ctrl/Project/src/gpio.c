@@ -4,7 +4,7 @@
 sUnload_Port_Info port_info[4];
 
 u16 position_cnt = 0;
-u16 position_remain = 10;
+u16 position_remain = 8;
 u16 position_delay = 0;
 u16 position_servo = 0;
 u32 position_speed = 0;
@@ -79,7 +79,7 @@ void gpio_upload_position_process(void)
         return;
     }
 
-    if ((((position_cnt + 4)  % position_remain) == 0)) {
+    if ((((position_cnt + 1)  % position_remain) == 0)) {
         position_delay = 50;
         OUTTWO_ON;
         interval_Data.PreCarNum = gnd2WcsCmdData.carNo;
