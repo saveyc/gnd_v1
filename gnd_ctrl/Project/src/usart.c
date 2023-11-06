@@ -104,7 +104,7 @@ void uart4_send(void)
 
     for (i = 0; i < record_uart4_len; i++) {
         record_uart4_buff[i] = uart4_send_buff[i];
-        AddSendMsgToQueue(SEND_UART4_MSG);
+//        AddSendMsgToQueue(SEND_UART4_MSG);
     }
 }
 
@@ -157,7 +157,7 @@ void uart2_send(void)
 
     for (i = 0; i < record_uart2_len; i++) {
         record_uart2_buff[i] = uart2_send_buff[i];
-        AddSendMsgToQueue(SEND_UART2_MSG);
+//        AddSendMsgToQueue(SEND_UART2_MSG);
     }
 
 

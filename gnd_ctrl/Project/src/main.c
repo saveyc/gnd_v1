@@ -79,7 +79,7 @@ void scan_dip_state(void)
         }
     }
     inverter_type = (~dip_value)&0x7;
-    version[0] = 12;
+    version[0] = 13;
     version[1] = 0;
     version[2] = 0;
     version[3] = 2;
@@ -138,6 +138,8 @@ int main(void)
     InitGnd2WcsStateQueue();
     gnd2WcsCmdData.speed = 0;
     carInitSendMsgQueue();
+    carthreeInitSendMsgQueue();
+    cartwoInitSendMsgQueue();
     /* Infinite loop */
     while (1)
     {
@@ -160,6 +162,9 @@ int main(void)
             send_message_to_sever();
             fun_gnd2wcs_state_msg();
             carsend_message_to_sever();
+            carthreesend_message_to_sever();
+            cartwosend_message_to_sever();
+
         }
         sec_process();
     }

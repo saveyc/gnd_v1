@@ -34,6 +34,9 @@
 #include "timExti.h"
 #include "speed_ctrl.h"
 #include "carfun.h"
+#include "carfun.h"
+#include "carfuntwo.h"
+#include "carfunthree.h"
 //#include "delay.h"
    
 #define  USE_UDP
@@ -47,7 +50,7 @@ void Delay(uint32_t nCount);
 #define  ETH_SUCCESS            ((uint32_t)1)
 #define  DP83848_PHY_ADDRESS       0x01
 
-#define	TCP_RECEV_BUFF_SIZE		2048
+#define	TCP_RECEV_BUFF_SIZE		1500
 #define	CLIENT_DIS_CONNECT		0
 #define	CLIENT_CONNECT_OK		1
 #define	CLIENT_CONNECT_RECV		2
@@ -64,7 +67,19 @@ void Delay(uint32_t nCount);
 #define DEST_IPTWO_ADDR1   168
 #define DEST_IPTWO_ADDR2   10
 #define DEST_IPTWO_ADDR3   110
-#define DEST_PORT_TWO   9000
+#define DEST_PORT_TWO      9000
+
+#define DEST_IPTHREE_ADDR0   192
+#define DEST_IPTHREE_ADDR1   168
+#define DEST_IPTHREE_ADDR2   10
+#define DEST_IPTHREE_ADDR3   111
+#define DEST_PORT_THREE      9000
+
+#define DEST_IPFOUR_ADDR0   192
+#define DEST_IPFOUR_ADDR1   168
+#define DEST_IPFOUR_ADDR2   10
+#define DEST_IPFOUR_ADDR3   112
+#define DEST_PORT_FOUR      9000
 
 #define LOCAL_UDP_PORT  DEST_PORT
 /* MAC ADDRESS: MAC_ADDR0:MAC_ADDR1:MAC_ADDR2:MAC_ADDR3:MAC_ADDR4:MAC_ADDR5 */
