@@ -249,6 +249,7 @@ void send_msg_gndctrl2wcs_cmd(u8 *buf, u16 *len, u16 type)
     u8  sum = 0;
     u16 sendlen = 0;
     u16 i = 0;
+    u16 j = 0;
 
     node = pxGetMsgFromStateQueue(&gndstatequeue);
     pregndposnod = *node;
@@ -282,6 +283,11 @@ void send_msg_gndctrl2wcs_cmd(u8 *buf, u16 *len, u16 type)
     buf[8] = sum;
 
     *len = sendlen;
+
+    for (j = 0; j < 10; j++) {
+        GndThreemsg[j] = buf[11 + j];
+    }
+    carthreeAddSendMsgToQueue(SEND_MSG_GNDCTRL2WCS_CMD_TYPE);
 }
 
 //主动发送小车发生位置变化的间隔
@@ -291,6 +297,7 @@ void send_msg_gndctrl2wcs_cmd_interval_data(u8 *buf, u16 *len, u16 type)
     u16 sendlen;
     u16 i;
     sGndCtrl2WCS_Interval_Data* intervalData = 0;
+    u16 j = 0;
     
     sendlen = 11 + 6;
    
@@ -328,6 +335,11 @@ void send_msg_gndctrl2wcs_cmd_interval_data(u8 *buf, u16 *len, u16 type)
 
     carAddSendMsgToQueue(CAR_MSG_GNDCTRL2WCS_CMD_INTERVAL_TYPE);
     positionreset = 30;
+
+    for (j = 0; j < 6; j++) {
+        GndThreeDebug[j] = buf[11 + j];
+    }
+    carthreeAddSendMsgToQueue(SEND_MSG_GNDCTRL2WCS_CMD_INTERVAL_TYPE);
 }
 
 
