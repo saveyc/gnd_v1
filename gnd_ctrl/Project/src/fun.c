@@ -339,7 +339,7 @@ void send_msg_gndctrl2wcs_cmd_interval_data(u8 *buf, u16 *len, u16 type)
     for (j = 0; j < 6; j++) {
         GndThreeDebug[j] = buf[11 + j];
     }
-    carthreeAddSendMsgToQueue(SEND_MSG_GNDCTRL2WCS_CMD_INTERVAL_TYPE);
+//    carthreeAddSendMsgToQueue(SEND_MSG_GNDCTRL2WCS_CMD_INTERVAL_TYPE);
 }
 
 
